@@ -1,4 +1,4 @@
-import { IUserData } from "./interfaces/user-data";
+import { IRepos } from "./interfaces/repos.interface";
 import { log } from "./helpers/debug";
 import { Repos } from "./components/repos/repos";
 import { Http } from "./helpers/http";
@@ -10,7 +10,7 @@ let store = new Store();
 /**
  * Store state
  */
-let state: IUserData;
+let state: IRepos[];
 /**
  * Test app working fine
  */
@@ -22,8 +22,8 @@ customElements.define("repos-element", Repos);
 /**
  * Get user repos
  */
-Http.getUserData("https://api.github.com/users/devballteam").then(
-  (data: IUserData) => {
+Http.getUserData("https://api.github.com/users/devballteam/repos").then(
+  (data: IRepos[]) => {
     store.updateState(data);
     state = store.getState();
     console.log(state);
