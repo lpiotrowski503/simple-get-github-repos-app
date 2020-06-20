@@ -1,0 +1,44 @@
+@import '../styles/theme.sass'
+    
+.add-user-repos
+    display: flex
+    align-items: center
+    flex-grow: 1
+    min-height: 100px;
+
+    &__form
+        display: flex
+        align-items: center
+        flex-grow: 1
+
+        .label
+            color: $text-color
+            margin-left: 50px
+
+        .button
+            color: $text-color
+            background-image: $button-background-color
+            transition: transform 0.5s
+
+            &:hover
+                transform: scale(1.03)
+                
+
+        &__user
+
+           &__label
+               @extend .label
+
+           &__input 
+
+        &__update
+
+           &__label
+               @extend .label
+               
+           &__input 
+
+        &__submit
+
+           &__button
+               @extend .button

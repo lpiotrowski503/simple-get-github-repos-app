@@ -1,0 +1,32 @@
+$default__text-size: 16px
+$default__radius: 5px
+    
+*
+    font-family: 'Open Sans', sans-serif
+
+    &:focus
+        outline: none
+
+.default
+    padding: 10px
+    margin: 10px
+    border: none
+    font-size: $default__text-size
+
+input, button
+
+input
+    @extend .default
+    min-width: 400px
+    border-radius: $default__radius
+
+
+label
+    font-size: $default__text-size
+
+button
+    @extend .default
+    padding: 10px 20px
+    cursor: pointer
+    background-color: transparent
+    border-radius: $default__radius

@@ -1,19 +1,19 @@
-import { IRepos } from "../interfaces/repos.interface";
+import { IReposResponse } from "../interfaces/repos.interface";
 
 export class Store {
-  private state: IRepos[];
-  private initState: IRepos[] = [];
+  private state: IReposResponse[];
+  private initState: IReposResponse[] = [];
 
   constructor() {
     this.state = this.initState;
   }
 
-  public updateState(newState: any): any {
+  public updateState(newState: IReposResponse[]): IReposResponse[] {
     this.state = { ...this.state, ...newState };
     return this.state;
   }
 
-  public getState() {
+  public getState(): IReposResponse[] {
     return this.state;
   }
 }

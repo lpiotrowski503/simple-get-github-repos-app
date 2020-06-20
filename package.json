@@ -5,14 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start": "serve -s -l 4200",
-    "dev": "run-p pug-w pug-index webpack-watch start",
+    "dev": "run-p pug-w pug-index webpack-watch sass start",
     "pug-w": "pug ./src -P -w",
     "pug-index": "pug ./index.pug -P -w",
-    "webpack-watch": "webpack -w"
+    "webpack-watch": "webpack -w",
+    "sass": "node-sass --watch --recursive --output ./assets/styles --source-map-contents ./src/styles/index.sass"
   },
   "author": "Łukasz Piotrowski",
   "license": "ISC",
   "devDependencies": {
+    "node-sass": "^4.14.1",
     "npm-run-all": "^4.1.5",
     "pug-cli": "^1.0.0-alpha6",
     "serve": "^11.3.2",

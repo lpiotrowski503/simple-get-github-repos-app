@@ -1,0 +1,54 @@
+* {
+  font-family: 'Open Sans', sans-serif; }
+  *:focus {
+    outline: none; }
+
+.repos {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 30px 60px;
+  margin: 5px 10px; }
+  .repos header {
+    display: flex;
+    align-items: center; }
+    .repos header h2 {
+      font-size: 30px;
+      margin: 0; }
+    .repos header button {
+      display: flex;
+      border: none;
+      background-color: transparent;
+      cursor: pointer; }
+      .repos header button img {
+        height: 30px;
+        margin-left: 30px;
+        transition: transform 0.3s;
+        transform: rotate(0); }
+      .repos header button.collapsed img {
+        transform: rotate(180deg); }
+  .repos article {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s; }
+    .repos article table {
+      width: 100%;
+      border-collapse: collapse; }
+      .repos article table thead tr {
+        border-bottom: 1px solid #000; }
+        .repos article table thead tr th {
+          font-size: 20px;
+          text-align: left;
+          padding: 20px 0; }
+      .repos article table tbody tr td {
+        font-size: 14px;
+        padding: 5px 20px 5px 0; }
+      .repos article table tbody tr:first-child td {
+        padding-top: 20px; }
+      .repos article table tbody tr:last-child {
+        border-bottom: 1px solid #000; }
+        .repos article table tbody tr:last-child td {
+          padding-bottom: 20px; }
+    .repos article.open {
+      max-height: 1000px; }

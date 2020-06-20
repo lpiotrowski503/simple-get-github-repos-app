@@ -1,4 +1,4 @@
-export interface IRepos {
+export interface IReposResponse {
   archive_url: string;
   archived: false;
   assignees_url: string;
@@ -78,4 +78,11 @@ export interface IRepos {
   url: string;
   watchers: number;
   watchers_count: number;
+}
+
+export interface IRepos {
+  name: string;
+  description: string;
+  updated_at: Date | string;
+  git_url: string;
 }

@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html lang="en"> 
   <head>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/styles/index.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perform</title>
   </head>
-  <body>
-    <template id="repos-element">
-      <p>Repos</p>
-    </template>
+  <body><!DOCTYPE html>
+    <section class="add-user-repos">
+      <form class="add-user-repos__form">
+        <div class="add-user-repos__form__user">
+          <label class="add-user-repos__form__user__label">User name</label>
+          <input class="add-user-repos__form__user__input" id="add-user-repos__user">
+        </div>
+        <div class="add-user-repos__form__update">
+          <label class="add-user-repos__form__update__label">Update at</label>
+          <input class="add-user-repos__form__update__input">
+        </div>
+        <div class="add-user-repos__form__submit">
+          <button class="add-user-repos__form__submit__button" id="add-user-repos__submit">Add user repository</button>
+        </div>
+      </form>
+    </section>
     <repos-element></repos-element>
     <script src="./index.js"></script>
   </body>
