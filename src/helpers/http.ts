@@ -1,9 +1,11 @@
 import { ErrorHundler } from "./error-handler";
-
+/**
+ * Http class for send request and catch error in one place
+ */
 export class Http {
-  static getUserData(url: string): Promise<any> {
+  static get(url: string): Promise<any> {
     return fetch(url)
-      .then((response) => response.json())
-      .catch((error) => ErrorHundler.printError(error));
+      .then((response: any) => response.json())
+      .catch((error: any) => ErrorHundler.printError(error));
   }
 }

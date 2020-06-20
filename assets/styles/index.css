@@ -27,10 +27,15 @@ body {
   margin: 0; }
 
 .add-user-repos {
+  position: fixed;
+  top: 0;
+  z-index: 2;
   display: flex;
   align-items: center;
   flex-grow: 1;
-  min-height: 100px; }
+  min-height: 100px;
+  width: 100vw;
+  background-color: rgba(18, 20, 23, 0.8); }
   .add-user-repos__form {
     display: flex;
     align-items: center;
@@ -70,9 +75,12 @@ body {
       cursor: pointer; }
       .repos header button img {
         height: 30px;
-        margin-left: 30px;
         transition: transform 0.3s;
         transform: rotate(0); }
+      .repos header button:nth-child(2) img {
+        margin-left: 30px; }
+      .repos header button:last-child {
+        margin-left: auto; }
       .repos header button.collapsed img {
         transform: rotate(180deg); }
   .repos article {
@@ -114,5 +122,10 @@ body {
     left: 0;
     bottom: 0;
     right: 0;
-    position: absolute;
+    position: fixed;
     z-index: -1; }
+  body repos-element {
+    top: 100px;
+    position: relative;
+    display: flex;
+    flex-direction: column; }

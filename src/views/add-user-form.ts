@@ -9,9 +9,11 @@ export class AddUserForm {
     const userDataInput = document.querySelector(
       "#add-user-repos__user"
     ) as any;
+
     const updateInput = document.querySelector(
       "#add-user-repos__update"
     ) as any;
+
     const btn = document.querySelector("#add-user-repos__submit") as any;
     btn.addEventListener("click", (e) => {
       e.preventDefault();

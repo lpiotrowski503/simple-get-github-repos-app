@@ -2,71 +2,75 @@ import { IReposResponse, IRepos } from "../../interfaces/repos.interface";
 import { Http } from "../../helpers/http";
 import { Event } from "../../helpers/event";
 import { Utils } from "../../helpers/utils";
-
+/**
+ * Repos Web Custom Component Class
+ */
 export class Repos extends HTMLElement {
-  private _repos: IRepos[] = [];
-  private _elements: string[] = [];
+  private _shadowAttached: boolean = false;
+  /**
+   * User name variable
+   */
   private _userName: string = "";
+  /**
+   * User repos variable
+   */
+  private _repos: IRepos[] = [];
+  /**
+   * Attached element names to the shadow
+   */
+  private _elements: string[] = [];
 
   constructor() {
     super();
-
+    /**
+     * Custom event listener for stream from data from add user form to create repos element
+     */
     Event.on("CREATE USER REPOS", (event: any): void => {
       this._userName = event.user;
       this._onGetUserRepos(this._userName);
-      // this._setUserNameAttribute(this._userName);
     });
-
+    /**
+     * Custom event listener for show hide repos list
+     */
     Event.on("COLLAPSE", (event: any): void => {
       let table = this.shadowRoot?.querySelector(`#article-${event.id}`);
       table?.classList.contains("open")
         ? table.classList.remove("open")
         : table?.classList.add("open");
     });
+    /**
+     * Custom event listener for remove user repos
+     */
+    Event.on("REMOVE", (event: any): void => {
+      this.shadowRoot?.removeChild(event.element);
+      this._elements = this._elements.filter(
+        (item: string) => item !== event.id
+      );
+    });
   }
-
-  // static get observedAttributes() {
-  //   return ["data-user", "data-update"];
-  // }
-
-  // get dataUser() {
-  //   return this.getAttribute("data-user");
-  // }
-
-  // set dataUser(value: any) {
-  //   this.setAttribute("data-user", value);
-  // }
-
-  // get dataUpdate() {
-  //   return this.getAttribute("data-update");
-  // }
-
-  // set dataUpdate(value: any) {
-  //   this.setAttribute("data-update", value);
-  // }
-
-  // attributeChangedCallback(name, oldValue, newValue) {}
-
-  // connectedCallback() {}
-
-  // disconnectedCallback() {}
-
-  // private _setUserNameAttribute(user: string): void {
-  //   this.dataUser = user;
-  // }
-
+  /**
+   * Method for send request for get user repos
+   *
+   * @param user
+   */
   private _onGetUserRepos(user: string): void {
-    Http.getUserData(`https://api.github.com/users/${user}/repos`).then(
+    Http.get(`https://api.github.com/users/${user}/repos`).then(
       (repos: IReposResponse[]) => {
         if (repos.length) {
           this._prepareReposData(repos);
           this._createUserRepoElement();
+        } else {
+          console.log(`Cannot find "${user}" user`);
         }
       }
     );
   }
-
-  private _prepareReposData(repos): void {
+  /**
+   * Method for filtering response to view requirements
+   *
+   * @param repos
+   */
+  private _prepareReposData(repos: IReposResponse[]): void {
     this._repos = Utils.mapResponse(repos, [
       "name",
       "description",
@@ -74,53 +78,52 @@ export class Repos extends HTMLElement {
       "git_url",
     ]);
   }
-
+  /**
+   * Method for attach first element to shadow
+   *
+   * @param template
+   */
+  private _attachFirstElement(template: HTMLElement): void {
+    this._shadowAttached = true;
+    this._elements.push(this._userName);
+    this.attachShadow({ mode: "open" }).appendChild(template);
+  }
+  /**
+   * Method for attach next element to shadow
+   *
+   * @param template
+   */
+  private _attachNextElement(template: HTMLElement): void {
+    this._elements.push(this._userName);
+    this.shadowRoot?.appendChild(template);
+  }
+  /**
+   * Method for create repos element
+   */
   private _createUserRepoElement(): void {
-    let template = document.createElement("repos");
-    let header = document.createElement("header");
-    let article = document.createElement("article");
-    let button = document.createElement("button");
-    template.innerHTML = `
-    <link rel="stylesheet" href="/assets/styles/repos.css">
-    `;
-    header.innerHTML = `<h2>${this._userName}</h2>`;
-    button.innerHTML = `<img src='/assets/icons/drop-down.svg'>`;
-    button.id = this._userName;
-
-    button.addEventListener("click", function (event: MouseEvent): void {
-      this.classList.contains("collapsed")
-        ? this.classList.remove("collapsed")
-        : this.classList.add("collapsed");
-
-      Event.emit("COLLAPSE", { id: this.id });
-    });
-
-    template.setAttribute("class", "repos");
-    template.setAttribute("data-user", this._userName);
-    template.setAttribute("data-update", "2019-05-01");
-
-    article.setAttribute("id", `article-${this._userName}`);
-
-    header.appendChild(button);
-    article.appendChild(
-      Utils.buildTable(
-        ["name", "description", "updated at", "git url"],
-        this._repos
-      )
+    this._createUserRepoElementStrategy(
+      Utils.buildTemplate(this._userName, this._repos)
     );
-    template.appendChild(header);
-    template.appendChild(article);
+  }
+  /**
+   * Method for decided way to create repos element
+   *
+   * @param template
+   */
+  private _createUserRepoElementStrategy(template: HTMLElement): void {
+    let checkShadowIsAttached = this._shadowAttached;
+    let checkReposIsUnique = this._elements.filter(
+      (item) => item === this._userName
+    ).length;
 
-    if (this._elements.length) {
-      if (this._elements.filter((item) => item === this._userName).length) {
+    if (checkShadowIsAttached) {
+      if (checkReposIsUnique) {
         console.log("User just exist !");
       } else {
-        this._elements.push(this._userName);
-        this.shadowRoot?.appendChild(template);
+        this._attachNextElement(template);
       }
     } else {
-      this._elements.push(this._userName);
-      this.attachShadow({ mode: "open" }).appendChild(template);
+      this._attachFirstElement(template);
     }
   }
 }

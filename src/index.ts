@@ -9,5 +9,5 @@ window.onload = (e) => {
   /**
    * Add user form template instance
    */
-  const addUserForm = new AddUserForm();
+  new AddUserForm();
 };

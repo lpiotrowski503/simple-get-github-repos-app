@@ -28,10 +28,15 @@
 
             img
                 height: 30px
-                margin-left: 30px
                 transition: transform 0.3s
                 transform: rotate(0)
 
+            &:nth-child(2)
+                img
+                    margin-left: 30px
+
+            &:last-child
+                margin-left: auto
 
             &.collapsed
                 img

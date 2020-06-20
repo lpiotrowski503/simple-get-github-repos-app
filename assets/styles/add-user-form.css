@@ -1,8 +1,13 @@
 .add-user-repos {
+  position: fixed;
+  top: 0;
+  z-index: 2;
   display: flex;
   align-items: center;
   flex-grow: 1;
-  min-height: 100px; }
+  min-height: 100px;
+  width: 100vw;
+  background-color: rgba(18, 20, 23, 0.8); }
   .add-user-repos__form {
     display: flex;
     align-items: center;
