@@ -114,9 +114,13 @@ export class Repos extends HTMLElement {
    * Method for create repos element
    */
   private _createUserRepoElement(): void {
-    this._createUserRepoElementStrategy(
-      Utils.buildTemplate(this._formData, this._repos)
-    );
+    if (this._repos.length) {
+      this._createUserRepoElementStrategy(
+        Utils.buildTemplate(this._formData, this._repos)
+      );
+    } else {
+      console.log(`No repos after ${this._formData.updated}`);
+    }
   }
   /**
    * Method for decided way to create repos element
