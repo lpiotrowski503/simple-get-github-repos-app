@@ -1,0 +1,28 @@
+.messenger {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8); }
+  .messenger.open {
+    display: flex; }
+  .messenger__popup {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    min-width: 500px;
+    min-height: 300px;
+    background-image: linear-gradient(90deg, #ed1d2b, #ed1d2b, #faa619); }
+    .messenger__popup__header {
+      font-size: 30px; }
+    .messenger__popup__message {
+      font-size: 20px; }
+    .messenger__popup__submit {
+      color: #fff;
+      background-color: black; }

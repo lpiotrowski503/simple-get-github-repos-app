@@ -67,7 +67,9 @@ export class Repos extends HTMLElement {
           this._prepareReposData(repos);
           this._createUserRepoElement();
         } else {
-          console.log(`Cannot find "${user}" user`);
+          Event.emit("MESSENGER", {
+            message: `Cannot find "${user}" user`,
+          });
         }
       }
     );
@@ -119,7 +121,9 @@ export class Repos extends HTMLElement {
         Utils.buildTemplate(this._formData, this._repos)
       );
     } else {
-      console.log(`No repos after ${this._formData.updated}`);
+      Event.emit("MESSENGER", {
+        message: `No repos after ${this._formData.updated}`,
+      });
     }
   }
   /**
@@ -135,7 +139,9 @@ export class Repos extends HTMLElement {
 
     if (checkShadowIsAttached) {
       if (checkReposIsUnique) {
-        console.log("User just exist !");
+        Event.emit("MESSENGER", {
+          message: "User just exist!",
+        });
       } else {
         this._attachNextElement(template);
       }

@@ -1,5 +1,6 @@
 import { Repos } from "./components/repos/repos";
-import { AddUserForm } from "./views/add-user-form";
+import { AddUserForm } from "./views/add-user-form/add-user-form";
+import { Messenger } from "./views/messenger/messenger";
 /**
  * Window ready
  *
@@ -14,4 +15,8 @@ window.onload = (e: Event) => {
    * Add user form template instance
    */
   new AddUserForm();
+  /**
+   * Messenger instance
+   */
+  new Messenger();
 };
