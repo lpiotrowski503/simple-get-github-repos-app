@@ -86,3 +86,9 @@ export interface IRepos {
   updated_at: Date | string;
   git_url: string;
 }
+
+export interface IFormData {
+  userName: string;
+  updated: Date | string;
+  id: () => string;
+}

@@ -1,4 +1,8 @@
-import { IReposResponse, IRepos } from "../../interfaces/repos.interface";
+import {
+  IReposResponse,
+  IRepos,
+  IFormData,
+} from "../../interfaces/repos.interface";
 import { Http } from "../../helpers/http";
 import { Event } from "../../helpers/event";
 import { Utils } from "../../helpers/utils";
@@ -7,10 +11,13 @@ import { Utils } from "../../helpers/utils";
  */
 export class Repos extends HTMLElement {
   private _shadowAttached: boolean = false;
-  /**
-   * User name variable
-   */
-  private _userName: string = "";
+  private _formData: IFormData = {
+    userName: "",
+    updated: "",
+    id() {
+      return `${this.userName}-${this.updated}`.replace(/\./g, "-");
+    },
+  };
   /**
    * User repos variable
    */
@@ -26,8 +33,8 @@ export class Repos extends HTMLElement {
      * Custom event listener for stream from data from add user form to create repos element
      */
     Event.on("CREATE USER REPOS", (event: any): void => {
-      this._userName = event.user;
-      this._onGetUserRepos(this._userName);
+      this._formData = { ...this._formData, ...event };
+      this._onGetUserRepos(this._formData.userName);
     });
     /**
      * Custom event listener for show hide repos list
@@ -54,7 +61,7 @@ export class Repos extends HTMLElement {
    * @param user
    */
   private _onGetUserRepos(user: string): void {
-    Http.get(`https://api.github.com/users/${user}/repos`).then(
+    Http.get(`https://api.github.com/users/${user}/repos?sort=updated`).then(
       (repos: IReposResponse[]) => {
         if (repos.length) {
           this._prepareReposData(repos);
@@ -77,6 +84,12 @@ export class Repos extends HTMLElement {
       "updated_at",
       "git_url",
     ]);
+
+    this._repos = this._repos.filter((item: any): boolean => {
+      const filterUpdate = new Date(this._formData.updated).getTime();
+      const itemUpdated = new Date(item.updated_at).getTime();
+      return filterUpdate < itemUpdated;
+    });
   }
   /**
    * Method for attach first element to shadow
@@ -85,7 +98,7 @@ export class Repos extends HTMLElement {
    */
   private _attachFirstElement(template: HTMLElement): void {
     this._shadowAttached = true;
-    this._elements.push(this._userName);
+    this._elements.push(this._formData.id.bind(this._formData)());
     this.attachShadow({ mode: "open" }).appendChild(template);
   }
   /**
@@ -94,7 +107,7 @@ export class Repos extends HTMLElement {
    * @param template
    */
   private _attachNextElement(template: HTMLElement): void {
-    this._elements.push(this._userName);
+    this._elements.push(this._formData.id.bind(this._formData)());
     this.shadowRoot?.appendChild(template);
   }
   /**
@@ -102,7 +115,7 @@ export class Repos extends HTMLElement {
    */
   private _createUserRepoElement(): void {
     this._createUserRepoElementStrategy(
-      Utils.buildTemplate(this._userName, this._repos)
+      Utils.buildTemplate(this._formData, this._repos)
     );
   }
   /**
@@ -113,7 +126,7 @@ export class Repos extends HTMLElement {
   private _createUserRepoElementStrategy(template: HTMLElement): void {
     let checkShadowIsAttached = this._shadowAttached;
     let checkReposIsUnique = this._elements.filter(
-      (item) => item === this._userName
+      (item) => item === this._formData.id.bind(this._formData)()
     ).length;
 
     if (checkShadowIsAttached) {

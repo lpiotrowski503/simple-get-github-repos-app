@@ -1,11 +1,13 @@
 import { ErrorHundler } from "./error-handler";
 
 export class Assert {
-  static assert(callback: () => void): void {
+  static try(resolve: () => void, reject?: (error: Error) => void): boolean {
     try {
-      callback();
+      resolve();
+      return true;
     } catch (error) {
-      ErrorHundler.printError(error);
+      if (reject) ErrorHundler.printError(error);
+      return false;
     }
   }
 }

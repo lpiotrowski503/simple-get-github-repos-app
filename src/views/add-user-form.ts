@@ -1,3 +1,5 @@
+import { Assert } from "./../helpers/assert";
+import { Utils } from "./../helpers/utils";
 import { Event } from "../helpers/event";
 
 export class AddUserForm {
@@ -10,14 +12,28 @@ export class AddUserForm {
       "#add-user-repos__user"
     ) as any;
 
-    const updateInput = document.querySelector(
-      "#add-user-repos__update"
+    const updatedInput = document.querySelector(
+      "#add-user-repos__updated"
     ) as any;
 
     const btn = document.querySelector("#add-user-repos__submit") as any;
     btn.addEventListener("click", (e) => {
       e.preventDefault();
-      Event.emit("CREATE USER REPOS", { user: userDataInput.value });
+
+      const checkCorrectValues =
+        userDataInput.value &&
+        updatedInput.value &&
+        Assert.try(() => new Date(updatedInput.value).getTime()) &&
+        !isNaN(new Date(updatedInput.value).getTime());
+
+      if (checkCorrectValues) {
+        Event.emit("CREATE USER REPOS", {
+          userName: userDataInput.value,
+          updated: Utils.buildDateString(updatedInput.value),
+        });
+      } else {
+        console.log("Please read correct user and update inputs");
+      }
     });
   }
 }
