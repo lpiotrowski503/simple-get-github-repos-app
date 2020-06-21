@@ -1,7 +1,11 @@
 import { Repos } from "./components/repos/repos";
 import { AddUserForm } from "./views/add-user-form";
-
-window.onload = (e) => {
+/**
+ * Window ready
+ *
+ * @param e
+ */
+window.onload = (e: Event) => {
   /**
    * Adding custow elements
    */

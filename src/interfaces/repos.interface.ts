@@ -1,3 +1,6 @@
+/**
+ * Repos Responce interface
+ */
 export interface IReposResponse {
   archive_url: string;
   archived: false;
@@ -79,14 +82,18 @@ export interface IReposResponse {
   watchers: number;
   watchers_count: number;
 }
-
+/**
+ * Table Repos interface
+ */
 export interface IRepos {
   name: string;
   description: string;
   updated_at: Date | string;
   git_url: string;
 }
-
+/**
+ * Form data interface
+ */
 export interface IFormData {
   userName: string;
   updated: Date | string;

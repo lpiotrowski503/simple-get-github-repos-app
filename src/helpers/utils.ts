@@ -113,7 +113,6 @@ export class Utils {
 
     return view.template;
   }
-
   /**
    * Method for build string in custom Date format
    *
